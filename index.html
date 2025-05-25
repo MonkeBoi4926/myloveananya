@@ -1,0 +1,79 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ananya's Cute Website</title>
+  <style>
+    body { background-color: #ffe6f0; font-family: 'Comic Sans MS', cursive, sans-serif; color: #ff69b4; text-align: center; padding: 20px; }
+    h1 { font-size: 3em; }
+    .cute-text { font-size: 1.2em; margin-top: 20px; line-height: 1.5; }
+    input, button { border: none; border-radius: 10px; padding: 10px; margin-top: 10px; }
+    button { background-color: #ff69b4; color: white; cursor: pointer; }
+    button:hover { background-color: #ff1493; }
+    a { display: block; margin-top: 20px; color: #ff69b4; font-weight: bold; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <h1>Hi Ananya! 🌸</h1>
+  <div class="cute-text">
+    Hello anu 🌷, this is aniesh your cutu lil bwoy 🐣.<br/>
+    This is smth I tried making for you, hope you like this 💖.<br/>
+    Baby I love you so much 💕. I am so glad I met someone like you and fell in love with you 😍.<br/>
+    My only goal now is to become worthy of marrying you 👰🤵 and I know I will.<br/>
+    Let’s continue this love for the rest of our lives and be the couple you always wanted us to be 💑💕.<br/>
+  </div>
+
+  <h2>Enter your name 🥺👇</h2>
+  <input type="text" id="username" placeholder="Your name..."/>
+  <button onclick="saveName()">Save</button>
+
+  <h3 id="visit-count"></h3>
+
+  <a href="page2.html">Go to Photo & Quotes Page 💫</a>
+  <a href="page3.html">Go to Game Page 🎮</a>
+
+  <!-- Firebase & JS -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBonJLizwXuiw-_JDpgoJrqYL9BpyU0xz8",
+      authDomain: "anu-wbsite.firebaseapp.com",
+      databaseURL: "https://anu-wbsite-default-rtdb.firebaseio.com/",
+      projectId: "anu-wbsite",
+      storageBucket: "anu-wbsite.appspot.com",
+      messagingSenderId: "407995205079",
+      appId: "1:407995205079:web:be77e7f5ac1e135e037792",
+      measurementId: "G-3CL4J8H8ST"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    let userName = localStorage.getItem("name");
+    let visitCount = localStorage.getItem("visits") || 0;
+
+    if (userName) {
+      visitCount++;
+      localStorage.setItem("visits", visitCount);
+      document.getElementById("visit-count").innerText = `${userName}, you have visited this site ${visitCount} times!`;
+      database.ref("visitors/" + userName).set({ name: userName, visits: visitCount });
+    }
+
+    function saveName() {
+      let nameInput = document.getElementById("username").value;
+      if (!nameInput) { alert("Please enter a name!"); return; }
+      userName = nameInput;
+      localStorage.setItem("name", userName);
+      visitCount = 1;
+      localStorage.setItem("visits", visitCount);
+      document.getElementById("visit-count").innerText = `${userName}, you have visited this site ${visitCount} times!`;
+      database.ref("visitors/" + userName).set({ name: userName, visits: visitCount });
+    }
+  </script>
+</body>
+</html>
+
+
+
+
